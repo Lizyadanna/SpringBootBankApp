@@ -11,10 +11,15 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    @Autowired
-    private CustomerRepository customerRepository;
 
-    public Customer addCustomer(Customer customer) {
+    private final CustomerRepository customerRepository;
+
+    @Autowired
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
@@ -26,11 +31,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer getCustomerById(long id) {
-        return customerRepository.findById(id).orElse(new Customer());
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
-    public void deleteCustomer(long id) {
+    public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
 

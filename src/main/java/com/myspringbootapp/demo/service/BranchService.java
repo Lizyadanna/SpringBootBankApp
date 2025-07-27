@@ -10,13 +10,15 @@ import java.util.List;
 @Service
 public class BranchService {
 
-    @Autowired
-    private BranchRepository branchRepository;
+    private final BranchRepository branchRepository;
 
+    @Autowired
+    public BranchService(BranchRepository branchRepository) {
+        this.branchRepository = branchRepository;
+    }
     public Branch createBranch(Branch branch) {
         return branchRepository.save(branch);
     }
-
     public void updateBranch(Branch branch) {
         branchRepository.save(branch);
     }
@@ -25,11 +27,11 @@ public class BranchService {
         return branchRepository.findAll();
     }
 
-    public Branch getBranchById(long id) {
-        return branchRepository.findById(id).orElse(new Branch());
+    public Branch getBranchById(Long id) {
+        return branchRepository.findById(id).orElse(null);
     }
 
-    public void deleteBranch(long id) {
+    public void deleteBranch(Long id) {
         branchRepository.deleteById(id);
     }
 }
