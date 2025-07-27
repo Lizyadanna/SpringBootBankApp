@@ -56,8 +56,8 @@ public class Account {
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
-    // Custom constructors
 
+    // Custom constructors
     // This constructor ensures every account starts in a valid, consistent state.
     public Account(){
         this.openDate = LocalDateTime.now();
@@ -65,6 +65,7 @@ public class Account {
         this.balance = BigDecimal.ZERO;
     }
 
+    // This constructor doesn't pass in the id because it is auto-generated.
     public Account(String accountNumber, AccountType accountType, Customer customer, Branch branch) {
         this.accountNumber = accountNumber;
         this.accountType = accountType;
