@@ -1,5 +1,6 @@
 package com.myspringbootapp.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.Email;
@@ -41,9 +42,15 @@ public class Employee {
     private BigDecimal salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id", nullable = false)
+    @JoinColumn(name = "branch_id", nullable = true)
+    @JsonIgnore
     private Branch branch;
 
+
+    // Custom constructor
+    public Employee() {
+        this.hireDate = LocalDate.now();  // Auto-set hire date to today
+    }
     // Custom constructor with all fields
     public Employee(String firstName, String lastName, String email, String phoneNumber, String jobTitle, String department, LocalDate hireDate, BigDecimal salary, Branch branch) {
         this.firstName = firstName;

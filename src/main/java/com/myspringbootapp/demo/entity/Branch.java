@@ -1,4 +1,5 @@
 package com.myspringbootapp.demo.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -11,6 +12,9 @@ import java.util.List;
 @Data
 @Entity
 public class Branch {
+
+    public void setName(String testBranch) {
+    }
 
     public enum BranchType {
         HEADQUARTERS,           // Main office with executives
@@ -102,14 +106,17 @@ public class Branch {
     // Relationships
     // One branch can have multiple employees
     @OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Employee> employees;
 
     // One branch can have multiple accounts
     @OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Account> accounts;
 
     // One branch can be home branch for multiple customers
     @OneToMany(mappedBy = "homeBranch", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Customer> homeCustomers;
 
     // Custom constructors

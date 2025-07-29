@@ -13,18 +13,28 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final BranchRepository branchRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, BranchRepository branchRepository) {
         this.customerRepository = customerRepository;
+        this.branchRepository = branchRepository;
     }
 
     public Customer createCustomer(Customer customer) {
-        return customerRepository.save(customer);
+            // Set default branch if none provided (for demo)
+            if (customer.getHomeBranch() == null) {
+                // Get the first branch or create a default one
+                Branch defaultBranch = branchRepository.findById(1L)
+                        .orElseThrow(() -> new RuntimeException("No branch found with ID 1"));
+                customer.setHomeBranch(defaultBranch);
+            }
+
+            return customerRepository.save(customer);
     }
 
-    public void updateCustomer(Customer customer) {
-        customerRepository.save(customer);
+    public Customer updateCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     public List<Customer> getCustomers(){
@@ -38,5 +48,4 @@ public class CustomerService {
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
-
 }

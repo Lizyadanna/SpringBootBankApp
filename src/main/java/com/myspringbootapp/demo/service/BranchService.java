@@ -19,8 +19,8 @@ public class BranchService {
     public Branch createBranch(Branch branch) {
         return branchRepository.save(branch);
     }
-    public void updateBranch(Branch branch) {
-        branchRepository.save(branch);
+    public Branch updateBranch(Branch branch) {
+       return branchRepository.save(branch);
     }
 
     public List<Branch> getBranches(){

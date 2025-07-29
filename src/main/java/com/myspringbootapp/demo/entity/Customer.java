@@ -1,5 +1,6 @@
 package com.myspringbootapp.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -87,11 +88,13 @@ public class Customer {
 
     // One customer can have multiple accounts
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Account> accounts;
 
     // The branch where customer was registered
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "home_branch_id", nullable = false)
+    @JsonIgnore
     private Branch homeBranch;
 
     // Custom constructors

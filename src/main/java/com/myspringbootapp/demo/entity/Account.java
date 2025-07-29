@@ -1,5 +1,6 @@
 package com.myspringbootapp.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class Account {
     private Long id;
 
 
-    @Column(name="account_number", nullable = false, unique = true)
+    @Column(name="account_number", unique = true)
     private String accountNumber;
 
     @Enumerated(EnumType.STRING)
@@ -49,11 +50,13 @@ public class Account {
     private AccountStatus accountStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id", nullable = false)
+    @JoinColumn(name = "branch_id")
+    @JsonIgnore
     private Branch branch;
 
 
@@ -62,7 +65,8 @@ public class Account {
     public Account(){
         this.openDate = LocalDateTime.now();
         this.accountStatus = AccountStatus.ACTIVE;
-        this.balance = BigDecimal.ZERO;
+        this.accountNumber = "ACC" + System.currentTimeMillis();
+
     }
 
     // This constructor doesn't pass in the id because it is auto-generated.
